@@ -1,7 +1,72 @@
 # coding: utf-8
 
+class NodeAlreadyExistsError(Exception):
+    pass
+
+class NoSuchNodeError(Exception):
+    pass
+
 class EdgeAlreadyExistsException(Exception):
     pass
+
+class NoSuchEdgeError(Exception):
+    pass
+
+
+class Graph:
+  def __init__(self):
+      self.nodes = []
+
+  def add_node(self, node):
+      if node in self.nodes:
+          raise NodeAlreadyExistsError()
+      self.nodes.append(node)
+
+  def del_node(self, node):
+      if not node in self.nodes:
+          raise NoSuchNodeError()
+      self.nodes.remove(node)
+
+  def get_nodes(self):
+      return list(self.nodes)
+
+  def add_edge(self, node_a, node_b):
+      if self.has_edge(node_a, node_b):
+          raise EdgeAlreadyExistsError()
+      node_a.add_edge(node_b)
+
+  def del_edge(self, node_a, node_b):
+      if not self.has_edge(node_a, node_b):
+          raise NoSuchEdgeError()
+      node_a.del_edge(node_b)
+
+  def has_node(self, node):
+      return (node in self.nodes)
+
+  def has_edge(self, node_a, node_b):
+      return node_a.has_edge(node_b)
+
+  def count_nodes(self):
+      return len(self.nodes)
+
+  def count_edges(self):
+      count = 0
+      for node in self.nodes:
+          count += node.count_edges()
+      return count
+
+
+class UndirectedGraph(Graph):
+    def add_edge(self, node0, node1):
+        Graph.add_edge(self, node0, node1)
+        Graph.add_edge(self, node1, node0)
+
+    def del_edge(self, node0, node1):
+        Graph.del_edge(self, node0, node1)
+        Graph.del_edge(self, node1, node0)
+
+    def count_edges(self):
+        return Graph.count_edges(self) / 2
 
 
 class Node:
@@ -9,42 +74,15 @@ class Node:
         self.edges = []
 
     def add_edge(self, node):
-        if self.has_edge(node):
-            raise EdgeAlreadyExistsException(self, node)
         self.edges.append(node)
+    def del_edge(self, node):
+        self.edges.remove(node)
 
     def has_edge(self, node):
         return (node in self.edges)
 
-
-class DirectedGraph:
-    def __init__(self):
-        self.nodes = []
-
-    def add_node(self, node):
-        self.nodes.append(node)
-
-    def add_nodes(self, nodes):
-        self.nodes += nodes
-
-    def get_nodes(self):
-        return list(self.nodes)
-
-    def add_edge(self, node0, node1):
-        node0.add_edge(node1)
-
-    def has_edge(self, node0, node1):
-        return node0.has_edge(node1)
-
-    def __repr__(self):
-        return '\n'.join(map(repr, self.nodes))
-
-
-class UndirectedGraph(DirectedGraph):
-    def add_edge(self, node0, node1):
-        node0.add_edge(node1)
-        node1.add_edge(node0)
-
+    def count_edges(self):
+        return len(self.edges)
 
 
 class Person(Node):
@@ -67,7 +105,7 @@ class FriendGraph(UndirectedGraph):
         self.add_edge(person0, person1)
 
 
-class PhoneGraph(DirectedGraph):
+class PhoneGraph(Graph):
     def add_person(self, person0):
         self.add_node(person0)
 
