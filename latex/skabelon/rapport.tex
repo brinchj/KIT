@@ -1,0 +1,122 @@
+\documentclass[10pt,a4paper,danish]{article}
+
+
+%% Indlæs ofte brugte pakker
+\usepackage{amssymb}
+\usepackage[danish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{microtype}
+
+
+%% Opsæt indlæsning af filer
+\lstset{
+  language=Python,
+  extendedchars=\true,
+  inputencoding=utf8,
+  linewidth=\textwidth, basicstyle=\small,
+  numbers=left, numberstyle=\footnotesize,
+  tabsize=2, showstringspaces=false,
+  breaklines=true, breakatwhitespace=false,
+}
+
+
+%% Titel og forfatter
+\title{MIN TITEL \\ Grundlæggende Datalogi}
+\author{MIT NAVN}
+
+%% Start dokumentet
+\begin{document}
+
+%% Vis titel
+\maketitle
+\newpage
+
+%% Vis indholdsfortegnelse
+\tableofcontents
+\newpage
+
+
+
+%% HER STARTER MIN AFLEVERING
+
+
+
+\section{Indtroduktion}
+Jeg har valgt at lave det og det fordi sådan og sådan..
+
+
+\section{Analyse}
+I mit produkt skal man kunne sådan og sådan, men ikke det her for det
+ville tage for lang tid.
+
+Når I har valgt hvilken type webapplikation I vil lave, er det næste
+at analysere og afgrænse problemstillingen. Hvad er det konkret
+opgaven går ud på? Hvad skal den webapplikation I laver
+kunne?
+
+Eksempelvis ved en social-netværks-applikation kan dette være
+at brugere skal kunne oprette profile med de-og-de persondata, samt at
+der skal holdes styr på relationer mellem brugerene - og at der
+derudover ikke skal implementeres andre ting. Tag eventuelt
+udgangspunkt i use-cases, ie. hvordan skal applikationen bruges, og
+hvilke formularer programmet skal præsentere for brugeren.
+
+\subsection{Punkt under analyse}
+I \LaTeX\ laver man undersektioner ved brug af "`$\backslash$subsection"'
+kommandoen. Alle kommandoer starter med "`$\backslash$"'. Bemærk, at min
+undersektion automatisk er kommet med i indholdsfortegnelsen. Jeg kan
+også lave en fin lille fodnote\footnote{smart ikke?}.
+
+\section{Design}
+For at mit program kan virke, skal der være en database med de og de
+tabeller. De skal indeholde...
+
+Hvilke tabeller skal der være i databasen, med hvilke kolonner? Hvad
+er der af væsentlig funktionalitet i programmet og hvordan skal det
+opbygges?
+
+\subsection{Punkt under design}
+Endnu et eksempel på en undersektion.
+
+
+\section{Implementation}
+Det er pænt at lave en undersektion for hver fil/funktionalitet der
+præsenteres. Det er også velset, at lægge selve kildekoden i et bilag.
+
+\subsection{Login}
+Login gør sådan og sådan og virker på den her måde.
+Se bilag \ref{login.py} for kildekoden.
+
+\subsection{Anden funktionalitet}
+Noget om "`anden funktionalitet"'. Kildekode ligger i bilag...
+
+
+\section{Afprøvning}
+Og til sidst afprøvning, med test af om
+programmet opfylder det, som I i analysen er kommet frem til at det
+bør kunne - dette giver også lejlighed til at reflektere over den
+løsning I har lavet.
+
+Hvad har i gjort for at afprøve programmet? Fik i det forventede
+resultat? Fandt i fejl?
+
+
+\section{Konklusion}
+Gik det godt? Var der problemer? Noget du ikke nåede eller som ikke
+virker? Noget der var svært?
+
+
+%% Her under følger diverse bilag
+\appendix
+
+
+\section{Kildekode}
+\subsection{login.py}
+\label{login.py} % vi kan referere til dette afsnit med \ref{login.py}
+
+\lstinputlisting{login.py}
+
+
+\end{document}
+
