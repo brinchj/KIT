@@ -1,0 +1,15 @@
+digraph G
+{
+	"Kongens Nytorv" -> "Christianshavn";
+	"Christianshavn" -> "Kongens Nytorv";
+
+	"Christianshavn" -> "Islands Brygge";
+	"Islands Brygge" -> "Christianshavn";
+	"Christianshavn" -> "Amagerbro";
+	"Amagerbro" -> "Christianshavn";
+
+	"DR Byen" -> "Islands Brygge";
+	"Islands Brygge" -> "DR Byen";
+
+	"DR Byen" -> "Kongens Nytorv";
+}
