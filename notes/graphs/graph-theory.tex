@@ -118,6 +118,48 @@ bruger vi to kanter. \Fref{fig:metro1} viser grafen fra
 \label{fig:metro1}
 \end{figure}
 
+\subsection{Veje}
+En vej i en graf er et sæt af knuder, der er forbundne af kanter.
+
+\begin{example}Til DR Byen og tilbage igen\end{example}
+\Fref{fig:metro0} viser en uorienteret graf over metronettet.
+Betragt vejen:\\\indent
+DR Byen $\to$ Islands Brygge $\to$ Christianshavn $\to$ Kongens Nytorv
+\\
+
+Det er den korteste vej (3 brugte kanter) mellem DR Byen og Kongens
+Nytorv. Men det er ikke den eneste vej mellem de to stationer. Man
+kunne havde taget forbi Amagerbro på vejen, blot for at vende om og
+fortsætte mod Kongens Nytorv. Denne vej ville have brugt 5 kanter i
+stedet for 3.
+
+Hvis vi i stedet vender blikket mod den orienterede graf fra
+\fref{fig:metro1}, ser vi at ovenstående ikke længere er den korteste
+vej fra DR Byen til Kongens Nytorv. Vi kan nu gøre brug af den nye
+direkte forbindelse og få vejen:\\\indent
+DR Byen $\to$ Kongens Nytorv
+\\
+
+Vejen indeholder nu kun 2 knuder (3 mindre). Desværre kan den direkte
+forbindelse kun bruges i en retning, så tilbagevejen bliver noget
+længere:\\\indent
+Kongens Nytorv $\to$ Christianshavn $\to$ Islands Brygge $\to$ DR Byen
+
+Sammensættes de to veje fås cyklen:\\\indent
+
+DR Byen $\to$ Kongens Nytorv $\to$ Christianshavn $\to$ Islands Brygge
+\\\indent $\to$ DR Byen\\
+
+En vej kaldes en cykel, hvis den starter og slutter med samme
+knude.
+
+
+\subsection{Vægtede kanter}
+Indtil nu har vi kun beskæftiget os med uvægtede grafer. En vægtet
+graf tildeler hver kant en \textit{vægt}, der angiver hvor meget
+kanten "`koster"'. Man kan tænke på det som en afstand mellem de to
+knuder kanten forbinder.
+
 
 \subsection{Søgning i grafer}
 \subsubsection{Dybde først}
