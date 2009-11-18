@@ -21,8 +21,22 @@
 
 \usetikzlibrary{shapes,arrows}
 
+
 \renewcommand{\Frefsecname}{Afsnit}
 \renewcommand{\frefsecname}{afsnit}
+
+\newcommand{\Frefexmname}{Eksempel}
+\newcommand{\frefexmname}{eksempel}
+
+\newcommand{\fancyrefexmlabelprefix}{exm}
+
+%\fancyrefchangeprefix{\fancyrefeqlabelprefix}{exm}
+\frefformat{vario}{\fancyrefexmlabelprefix}{
+  \frefexmname\fancyrefdefaultspacing#1
+}
+\Frefformat{vario}{\fancyrefexmlabelprefix}{
+  \Frefexmname\fancyrefdefaultspacing#1
+}
 
 \newcommand{\ct}{\texttt}
 
@@ -121,7 +135,10 @@ bruger vi to kanter. \Fref{fig:metro1} viser grafen fra
 \subsection{Veje}
 En vej i en graf er et sæt af knuder, der er forbundne af kanter.
 
-\begin{example}Til DR Byen og tilbage igen\end{example}
+\begin{example}
+\label{exm:path}
+Til DR Byen og tilbage igen\end{example}
+
 \Fref{fig:metro0} viser en uorienteret graf over metronettet.
 Betragt vejen:\\\indent
 DR Byen $\to$ Islands Brygge $\to$ Christianshavn $\to$ Kongens Nytorv
@@ -140,12 +157,17 @@ direkte forbindelse og få vejen:\\\indent
 DR Byen $\to$ Kongens Nytorv
 \\
 
-Vejen indeholder nu kun 2 knuder (3 mindre). Desværre kan den direkte
+Vejen indeholder nu kun 1 kant (2 mindre). Desværre kan den direkte
 forbindelse kun bruges i en retning, så tilbagevejen bliver noget
 længere:\\\indent
-Kongens Nytorv $\to$ Christianshavn $\to$ Islands Brygge $\to$ DR Byen
+Kongens Nytorv $\to$ Christianshavn $\to$ Islands Brygge $\to$
+DR Byen\\
 
-Sammensættes de to veje fås cyklen:\\\indent
+Tilbagevejen bruger igen 3 kanter.
+
+\begin{example}Cykler\end{example} En vej kaldes en cykel
+(\textit{cycle}) hvis start- og slutknuden er den samme. Vi kan
+sammensætte de to veje fra \fref{exm:path} og få cyklen:\\\indent
 
 DR Byen $\to$ Kongens Nytorv $\to$ Christianshavn $\to$ Islands Brygge
 \\\indent $\to$ DR Byen\\
