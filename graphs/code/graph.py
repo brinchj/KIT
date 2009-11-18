@@ -1,20 +1,25 @@
 # coding: utf-8
 
 class NodeAlreadyExistsError(Exception):
+    """ Knuden findes allerede """
     pass
 
 class NoSuchNodeError(Exception):
+    """ Knuden findes ikke """
     pass
 
 class EdgeAlreadyExistsException(Exception):
+    """ Kanten findes allerede """
     pass
 
 class NoSuchEdgeError(Exception):
+    """ Kanten findes ikke """
     pass
 
 
 class Graph:
   def __init__(self):
+      """ Tom graf, ingen knuder """
       self.nodes = []
 
   def add_node(self, node):
@@ -34,6 +39,16 @@ class Graph:
   def get_nodes(self):
       """ Hent en kopi af grafens knuder """
       return list(self.nodes)
+
+  def get_edges(self):
+      """ Hent en kopi af kant-par """
+      edges = []
+      for node_a in self.get_nodes():
+          for node_b in node.get_edges():
+              # tilføj kant fra a til b
+              edges.append( (node_a, node_b) )
+      return edges
+
 
   def add_edge(self, node_a, node_b):
       """ Tilføjer en kant fra a til b """
@@ -65,15 +80,18 @@ class Graph:
   def count_edges(self):
       """ Tæller antallet af kanter """
       count = 0
-      for node in self.nodes:
-          count += node.count_edges()
+      for node_a in self.nodes:
+          # Læg a's kanter til
+          count += node_a.count_edges()
       return count
 
 
   def ensure_nodes(self, nodes, must_exist):
       """ Kast en fejl hvis en af knuderne findes/ikke findes """
       for node in nodes:
+          # Findes knuden?
           exists = self.has_node(node)
+          # Overholder den begrænsningen?
           if must_exist and not exists:
               raise NoSuchNodeError(node)
           if not must_exist and exists:
@@ -82,7 +100,9 @@ class Graph:
   def ensure_edges(self, edges, must_exist):
       """ Kast en fejl hvis en af kanterne findes/ikke findes """
       for node_a, node_b in edges:
+          # Findes knuden?
           exists = self.has_edge(node_a, node_b)
+          # Overholder den begrænsningen?
           if must_exist and not exists:
               raise NoSuchEdgeError((node_a, node_b))
           if not must_exist and exists:
@@ -117,67 +137,22 @@ class UndirectedGraph(Graph):
 
 class Node:
     def __init__(self):
+        """ Ny knude, ingen kanter """
         self.edges = []
 
     def add_edge(self, node):
+        """ Tilføj kant """
         self.edges.append(node)
+
     def del_edge(self, node):
+        """ Fjern kant """
         self.edges.remove(node)
 
     def has_edge(self, node):
+        """ Test om en kant findes """
         return (node in self.edges)
 
     def count_edges(self):
+        """ Tæl antallet af kanter """
         return len(self.edges)
 
-
-class Person(Node):
-    def __init__(self, name):
-        Node.__init__(self)
-        self.name = name
-
-    def get_friends(self):
-        return list(self.edges)
-
-    def __repr__(self):
-        return self.name
-
-
-class FriendGraph(UndirectedGraph):
-    def add_person(self, person):
-        self.add_node(person)
-
-    def add_friends(self, person0, person1):
-        self.add_edge(person0, person1)
-
-
-class PhoneGraph(Graph):
-    def add_person(self, person0):
-        self.add_node(person0)
-
-    def add_number(self, person0, person1):
-        self.add_edge(person0, person1)
-
-
-# Lav nogle personer
-ps = [ Person('Navn%i' % i) for i in range(20) ]
-
-# Lav en ny vennegraf
-g = FriendGraph()
-
-# Tilføj personer til graf
-for p in ps:
-    g.add_node(p)
-
-# Tilføj nogle tilfældige relationer
-import random
-for i in range(len(ps)):
-    p0 = p1 = None
-    while p0 == p1:
-        p0 = random.choice(ps)
-        p1 = random.choice(ps)
-    if not g.has_edge(p0, p1):
-        g.add_edge(p0, p1)
-
-for person in g.get_nodes():
-    print person, person.get_friends()

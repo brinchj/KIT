@@ -7,6 +7,7 @@
 \usepackage[danish]{babel}
 \usepackage[utf8]{inputenc}
 
+\usepackage{alltt}
 
 \usepackage{fancyref}
 
@@ -118,9 +119,17 @@ bruger vi to kanter. \Fref{fig:metro1} viser grafen fra
 \end{figure}
 
 
+\subsection{Søgning i grafer}
+\subsubsection{Dybde først}
+\subsubsection{Bredde først}
+\subsection{Korteste vej}
+
+
 \section{Eksempler på grafer (Hvad kan det bruges til?!)}
 \subsection{Vennenetværk (ikke-orienteret graf)}
 \subsection{Telefonnumre (orienteret graf)}
+\subsection{Repræsentation af en sudoku som en graf}
+
 
 \section{Implementation af en graf i Python}
 Nu hvor det ligger fast hvad en graf er og hvad den kan bruges det
@@ -211,121 +220,134 @@ Jeg vælger at implementere model nummer et på grund af dens
 simplicitet. I det følgende beskriver jeg hvordan jeg implementere
 hver enkelte funktionalitet.
 
-\subsubsection{Opret tom graf}
+\subsubsection{Implementation af metoder}
+\paragraph{Opret tom graf}
 Den tomme graf er et \ct{Graph}-objekt uden nogen tilhørende
 knuder. Listen af knuder er sat til den tomme liste. En tom graf kan
 oprettes ved at instansiere klassen \ct{Graph}. Dennes \ct{\_\_init\_\_}
 metode sætter listen af knuder til den tomme liste:
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def __init__(self):
     self.nodes = []
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Indsættelse af knude}
+\paragraph{Indsættelse af knude}
 En knude kan indsættes med \ct{Graph}-metoden
 \ct{add\_node(node)}. Metoden virker ved at tilføje den nye knude til
 grafens liste over knuder:
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def add_node(self, node):
     self.nodes.append(node)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Sletning af knude}
+\paragraph{Sletning af knude}
 En knude kan fjernes fra en graf med \ct{Graph}-metoden
 \ct{del\_node}. Metoden virker ved at fjerne knuden fra grafens list af
 knuder:
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def del_node(self, node):
     self.nodes.remove(node)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Tilføjelse af kant}
+\paragraph{Tilføjelse af kant}
 En kant fra knude $a$ til knude $b$ kan tilføjes, ved at tilføje knude
 $b$ til listen over kanter i knude $a$.
 
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def add_edge(self, node_a, node_b):
     node_a.add_edge(node_b)
-\end{verbatim}
+\end{verbatim}}
 
 I \ct{Node}-klassen tilføjer \ct{add\_edge} metoden knuden til dens
 liste over kanter:
+{\small
 \begin{verbatim}
 class Node:
   ...
   def add_edge(self, node):
     self.edges.append(node)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Sletning af kant}
+\paragraph{Sletning af kant}
 En kan fra knude $a$ til knude $b$ kan slettes, ved at fjerne knude
 $b$ fra listen over kanter i knude $a$.
 
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def del_edge(self, node_a, node_b):
     node_a.del_edge(node_b)
-\end{verbatim}
+\end{verbatim}}
 
 I \ct{Node}-klassen fjernes knuden fra listen over kanter:
+{\small
 \begin{verbatim}
 class Node:
   ...
   def del_edge(node):
     self.edges.remove(node)
-\end{verbatim}
+\end{verbatim}}
 
 
-\subsubsection{Findes knude $k$ i grafen?}
+\paragraph{Findes knude $k$ i grafen?}
 Hvis knude $k$ ligger i grafen, ligger den i listen over knuder:
 
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def has_node(self, node):
     return (node in self.nodes)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Findes en kant fra knude $k_1$ til knude $k_2$?}
+\paragraph{Findes en kant fra knude $k_1$ til knude $k_2$?}
 Hvis en kan findes fra knude $k_1$ til knude $k_2$ må knude $k_2$
 ligge i listen over $k_1$'s kanter:
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def has_edge(node_a, node_b):
     return node_a.has_edge(node_b)
-\end{verbatim}
+\end{verbatim}}
 
 I \ct{Node}-klassen testes om \ct{node\_b} ligger i listen over kanter:
+{\small
 \begin{verbatim}
 class Node:
   ...
   def has_edge(self, node):
     return (node in self.edges)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Hvor mange knuder indeholder grafen?}
+\paragraph{Hvor mange knuder indeholder grafen?}
 Antallet af knuder i grafen er det samme som længden af listen over
 knuder:
+{\small
 \begin{verbatim}
 class Graph:
   ...
   def count_nodes(self):
     return len(self.nodes)
-\end{verbatim}
+\end{verbatim}}
 
-\subsubsection{Hvor mange kanter indeholder grafen?}
+\paragraph{Hvor mange kanter indeholder grafen?}
 Antallet af kanter i grafen er lig med antallet af fra de enkelte
 knuder:
+{\small
 \begin{verbatim}
 class Graph:
   ...
@@ -334,19 +356,166 @@ class Graph:
     for node in self.nodes:
       count += node.count_edges()
     return count
-\end{verbatim}
+\end{verbatim}}
 
 I \ct{Node}-klassen tælles antallet af kanter ved at tælle antallet af
 elementer i listen over kanter:
+{\small
 \begin{verbatim}
 class Node:
   ...
   def count_edges(self):
     return len(self.edges)
-\end{verbatim}
+\end{verbatim}}
 
 
-\subsection{Implementation}
+\subsubsection{Fejlhåndtering}
+Flere af ovenstående punkter kan give en fejl. Man kan forsøge at
+fjerne en knude der ikke findes, eller tilføje en kant der findes i
+forvejen. I dette afsnit vil jeg belyse de metoder der kan fejle, og
+udvide dem med fejlhåndtering.
+
+\paragraph{Definition af fejl:}
+Til at starte med definerer jeg fire fejltyper (\ct{exceptions}), som
+grafen kan \textit{kaste} i tilfælde af fejl:
+{\small
+\begin{verbatim}
+class NodeAlreadyExistsError(Exception):
+    """ Knuden findes allerede """
+    pass
+
+class NoSuchNodeError(Exception):
+    """ Knuden findes ikke """
+    pass
+
+class EdgeAlreadyExistsException(Exception):
+    """ Kanten findes allerede """
+    pass
+
+class NoSuchEdgeError(Exception):
+    """ Kanten findes ikke """
+    pass
+\end{verbatim}}
+
+\paragraph{Implementation af fejlhåndtering:}
+Jeg ændrer de problematiske metoder, så de nu kaster en af
+ovenstående fejl, når en ulovlig handling forsøges.\\
+
+Argumentet til \ct{add\_node} skal være en knude, som ikke ligger i
+grafen:
+{\small
+\begin{verbatim}
+def add_node(node):
+  # Fejlhåndtering
+  if node in self.nodes:
+    raise NodeAlreadyExistsError(node)
+  # Tilføj knuden
+  self.nodes.append(node)
+\end{verbatim}}
+
+Argumentet til \ct{del\_node} skal være en knude, som findes i grafen:
+{\small
+\begin{verbatim}
+def def_node(node):
+  # Fejlhåndtering
+  if not node in self.nodes:
+    raise NoSuchNodeError(node)
+  # Slet knude
+  self.nodes.remove(node)
+\end{verbatim}}
+
+\paragraph{Smartere fejlhåndtering:}
+Jeg ser, at fejlhåndteringen tager følgende form:
+\begin{enumerate}
+\item Undersøg om en knude eller kant findes eller ej
+\item Kast fejl hvis det ikke passer med forventningen
+\end{enumerate}
+
+Ved at definere en generel metode for dette, kan jeg reducere antallet
+af linjer brugt på fejlhåndtering betydeligt. Jeg definerer en
+funktion for knude og en for kanter. Jeg vælger at kalde dem
+\ct{ensure\_nodes} og \ct{ensure\_edges}:
+
+\begin{samepage}
+{\small
+\begin{verbatim}
+class Graph:
+  ...
+
+  def ensure_nodes(self, nodes, must_exist):
+      """ Kast en fejl hvis en af knuderne findes/ikke findes """
+      for node in nodes:
+          exists = self.has_node(node)
+          if must_exist and not exists:
+              raise NoSuchNodeError(node)
+          if not must_exist and exists:
+              raise NodeAlreadyExistsError(node)
+
+  def ensure_edges(self, edges, must_exist):
+      """ Kast en fejl hvis en af kanterne findes/ikke findes """
+      for node_a, node_b in edges:
+          exists = self.has_edge(node_a, node_b)
+          if must_exist and not exists:
+              raise NoSuchEdgeError((node_a, node_b))
+          if not must_exist and exists:
+              raise EdgeAlreadyExistsError((node_a, node_b))
+\end{verbatim}}
+\end{samepage}
+
+
+Jeg kan nu skrive fejlhåndteringen for \ct{add\_node} og \ct{del\_node}
+således:
+
+{\small
+\begin{verbatim}
+def add_node(node):
+  # Fejlhåndtering
+  self.ensure_nodes( [node], True )
+  # Tilføj knuden
+  self.nodes.append(node)
+
+def def_node(node):
+  # Fejlhåndtering
+  self.ensure_nodes( [node], False )
+  # Slet knude
+  self.nodes.remove(node)
+\end{verbatim}}
+
+Bemærk, at der kun bruges en enkelt linje til fejlhåndtering i den nye
+kode. Jeg fortsætter med at tilføje fejlhåndtering til de andre
+kritiske metoder: \\
+
+Argumenterne til \ct{add\_edge} skal være to knuder, der findes i
+grafen (der må gerne findes en kant i forvejen):
+{\small
+\begin{verbatim}
+class Graph:
+  ...
+  def add_edge(self, node_a, node_b):
+    # Fejlhåndtering
+    self.ensure_nodes(  [node_a, node_b]  , True  )
+    # Tilføj kant
+    node_a.add_edge(node_b)
+\end{verbatim}}
+
+Argumenterne til \ct{del\_edge} skal være to knuder, der deler en
+kant:
+{\small
+\begin{verbatim}
+class Graph:
+  ...
+  def del_edge(self, node_a, node_b):
+    # Fejlhåndtering
+    self.ensure_edges( [(node_a, node_b)], True )
+    # Slet kant
+    node_a.del_edge(node_b)
+\end{verbatim}}
+
+\subsection{Endelig Implementation}
+\begin{alltt}
+\input{code/graph.py}
+\end{alltt}
+
 \subsection{Test og afprøvning}
 
 \end{document}
