@@ -1,0 +1,23 @@
+digraph G
+{
+	overlap = false;
+
+	KN [label = "Kongens Nytorv"];
+	C  [label = "Christianshavn"];
+	IB [label = "Islands Brygge"];
+	A  [label = "Amagerbro"];
+	DR [label = "DR Byen"];
+
+	KN -> C [label=2];
+	C  -> KN [label=2];
+
+	C  -> IB [label=3];
+	IB -> C [label=3];
+	C -> A [label=2];
+	A -> C [label=2];
+
+	DR -> IB [label=1];
+	IB -> DR [label=1];
+
+	DR -> KN [label=5];
+}

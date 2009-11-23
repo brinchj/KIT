@@ -189,8 +189,7 @@ Ifølge grafen tager den direkte vej fra DR Byen til Kogens Nytorv
 minutter. Cyklen fra DR Byen til Kongens Nytorv og tilbage igen ville
 altså tage 11 minutter at gennemføre.
 
-\begin{figure}[h]
-\centering
+\begin{figure}[h]\centering
 \includegraphics[width=.75\textwidth]{graphs/metro2.pdf}
 \caption{Vægtet graf over metronet}
 \label{fig:metro2}
@@ -200,15 +199,94 @@ altså tage 11 minutter at gennemføre.
 
 
 \subsection{Søgning i grafer}
-\subsubsection{Dybde først}
-\subsubsection{Bredde først}
+Ligesom der kan søges i lister er det også muligt at søge i grafer. I
+kan en søgning efter et element $a$ gøres ved at gennemløbe listen og
+sammenligne alle elementer med $a$. Gennemløbet starter ved første
+element og fortsætter herefter med næste element indtil listen løber
+tør for elementer.
+
+I Python kan liste-gennemløb udføres med en \ct{for}-løkke. Da listens
+elementer er nummereret som første, andet, tredje $\dots$ $n$'e
+element er rækkefølgen af elementerne oplagt.
+
+I grafen er der ikke på samme måde en oplagt rækkefølge at udvælge
+knuderne på. Der er ikke nogen $i$'e knude.
+
+I de følgende afsnit skal vi se på to forskellige tilgange til søgning
+i grafer, der hver definerer en rækkefølge, hvori knuderne kan
+gennemløbes. Når først en sådan rækkefølge er klar kan søgning efter
+knuden $a$ udføres ved sammenligning med hver knude (som ved
+lister).
+
+I \fref{sec:shortest_path} skal vi se hvordan gennemløb af grafer kan
+bruges til at finde den korteste vej mellem to hustande i et vejnet.
+
+
+\subsubsection{Dybde-først søgning}
+
+I en dybde-først søgning (\textit{depth-first search}) defineres
+rækkefølgen af knuder ved at vælge de "`dybe"' niveauer først (de knuder,
+der ligger langt fra start-knuden).
+
+I dybde-først søgning vælges en vilkårlig knude som start-knude, der
+besøges først. Herefter vælges en vilkårlig kant (retning), der følges
+så langt som muligt (rekursion). Når den valgte kant er fuldt
+udforsket fortsætter søgningen med næste kant.
+
+Der tages løbende højde for, at hver knude kun besøges \'en gang.
+
+Dybde-først søgning kan også forstås på følgende måde:
+\begin{enumerate}
+\item Du står ved en rundkørsel i en by og skal finde en specifik
+  vej. Du har ikke noget kort.
+\item På skift prøver du hver vej væk fra rundkørslen og afsøger
+  alle veje du støder på i den retning. Du noterer de veje du møder,
+  så du kan undgå at prøve dem igen senere.
+\item Hvis vejen ikke var nede af den valgte retning afprøves næste vej.
+\end{enumerate}
+
+
+\Fref{fig:depth-first} illustrerer dybde-først søgning med et
+eksempel. Knuderne er nummereret efter den rækkefølge de bliver besøg
+i. Søgningen har valgt knuden $A$ som start-knude og vælger dernæst
+knuden $B$ som det første barn, der skal besøges herefter. Bemærk, at
+knuden $9$ først bliver besøgt, når den opdages fra $7$.
+
+
+%Den fulgte rute er altså:
+
+%\[1\downarrow 2\downarrow 3\downarrow 4\to 4\uparrow 3\uparrow 2\to 2
+%\downarrow 5\downarrow 6 \to 6\uparrow 5 \to 5\downarrow 7\downarrow
+%8 \to 8 \uparrow 7 \to 7\downarrow 9\]
+
+\begin{figure}[h]\centering
+\includegraphics[width=.6\textwidth]{graphs/depth-first.pdf}
+\caption{Dybde-først søgning i en graf}
+\label{fig:depth-first}
+\end{figure}
+
+
+\subsubsection{Bredde-først søgning}
+\Fref{fig:breadth-first} viser et eksempel på bredde-først søgning.
+
+\begin{figure}[h]\centering
+\includegraphics[width=.6\textwidth]{graphs/breadth-first.pdf}
+\caption{Bredde-først søgning i en graf}
+\label{fig:breadth-first}
+\end{figure}
+
+
 \subsection{Korteste vej}
+\label{sec:shortest_path}
+
+\subsubsection{Korteste vej mellem to hustande}
 
 
 \section{Eksempler på grafer (Hvad kan det bruges til?!)}
 \subsection{Vennenetværk (ikke-orienteret graf)}
 \subsection{Telefonnumre (orienteret graf)}
 \subsection{Repræsentation af en sudoku som en graf}
+
 
 
 \section{Implementation af en graf i Python}

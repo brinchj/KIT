@@ -1,0 +1,32 @@
+graph G
+{
+
+        "A" [label="A,1",color="#00aaaa"];
+        "B" [label="B,2",color="#00aa00"];
+        "C" [label="C,9",color="#0000aa"];
+        "D" [label="D,3",color="#00aa00"];
+        "E" [label="E,5",color="#0000aa"];
+        "F" [label="F,7",color="#00aa00"];
+        "G" [label="G,4",color="#00aa00"];
+        "H" [label="H,6",color="#0000aa"];
+        "I" [label="I,8",color="#0000aa"];
+
+
+	"A" -- "B";
+	"C" -- "A";
+	
+	"B" -- "D";
+	"B" -- "E";
+	"F" -- "C";
+
+	"D" -- "G";
+	"E" -- "H";
+	"F" -- "I";
+
+	"E" -- "F";
+
+        { rank=same; "B" "C" }
+        { rank=same; "D" "E" "F" }
+        { rank=same; "G" "H" "I" }
+
+}
