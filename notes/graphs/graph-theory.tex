@@ -177,10 +177,33 @@ knude.
 
 
 \subsection{Vægtede kanter}
-Indtil nu har vi kun beskæftiget os med uvægtede grafer. En vægtet
-graf tildeler hver kant en \textit{vægt}, der angiver hvor meget
-kanten "`koster"'. Man kan tænke på det som en afstand mellem de to
-knuder kanten forbinder.
+Indtil nu har vi kun beskæftiget os med uvægtede grafer. I korteste
+vej eksemplet fra \fref{exm:path} var længden af vejen antallet af
+kanter der indgik i vejen. Man tænke på det, som at hver kant
+kostede 1 at bruge.
+
+I en vægtet graf tildeles hver kant en vægt (\textit{weight}), der
+angiver hvor meget kanten koster. Man kan tænke på det som en
+afstand mellem de to knuder kanten forbinder. Vægten angiver dermed
+kantens længde.
+
+Lad vende tilbage til metronettet. \Fref{fig:metro2} viser
+\fref{fig:metro1} med angivede vægte. Hver vægt viser antallet af
+minutter det tager at bevæge sig over den tilhørende kant.
+
+Ifølge grafen tager den direkte vej fra DR Byen til Kogens Nytorv
+5 minutter, mens den "`gamle"' vej, over Christianshavn, tager 6
+minutter. Cyklen fra DR Byen til Kongens Nytorv og tilbage igen ville
+altså tage 11 minutter at gennemføre.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\textwidth]{graphs/metro2.pdf}
+\caption{Vægtet graf over metronet}
+\label{fig:metro2}
+\end{figure}
+
+
 
 
 \subsection{Søgning i grafer}
