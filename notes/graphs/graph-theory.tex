@@ -237,12 +237,13 @@ Der tages løbende højde for, at hver knude kun besøges \'en gang.
 
 Dybde-først søgning kan også forstås på følgende måde:
 \begin{enumerate}
-\item Du står ved en rundkørsel i en by og skal finde en specifik
-  vej. Du har ikke noget kort.
-\item På skift prøver du hver vej væk fra rundkørslen og afsøger
-  alle veje du støder på i den retning. Du noterer de veje du møder,
-  så du kan undgå at prøve dem igen senere.
-\item Hvis vejen ikke var nede af den valgte retning afprøves næste vej.
+\item Du står ved et vejkryds i en by og skal finde et specifik
+  kryds. Du har ikke noget kort.
+\item På skift prøver du hver vej væk fra krydset og afsøger alle veje
+  du støder på i den retning. Du noterer de veje du møder, så du kan
+  undgå at prøve dem igen senere.
+\item Hvis det søgte kryds ikke var nede af den valgte retning
+  afprøves næste vej.
 \end{enumerate}
 
 
@@ -267,7 +268,28 @@ knuden $9$ først bliver besøgt, når den opdages fra $7$.
 
 
 \subsubsection{Bredde-først søgning}
-\Fref{fig:breadth-first} viser et eksempel på bredde-først søgning.
+Ved bredde-først søgning (\textit{breadth-first search}) betragtes
+første knude fra alle udgående kanter før deres kanter følges. Dermed
+adskiller bredde-først søgning sig fra dybde-først søgning ved at søge
+i niveauer af knuder (hvor dybde-først blot løb ned ad første knude).
+
+Bredde-først søgning kan også beskrives på følgende måde:
+\begin{enumerate}
+\item Du står ved et vejkryds i en by og skal finde et specifikt
+  vejkryds. Du har ikke noget kort.
+\item På skift prøver du hver vej væk fra rundkørslen og ser om det
+  efterfølgende vejkryds er det du søger. Du følger ikke de nye veje
+  endnu.
+\item Når du har noteret, at ingen af de umildbart næste vejkryds er
+  det du søger, følger du deres respektive veje en ad gangen. Du
+  noterer de kryds du møder, så du kan undgå at prøve dem igen senere.
+\item Hvis krydset ikke var nede af den valgte retning afprøves næste vej.
+\end{enumerate}
+
+\Fref{fig:breadth-first} viser et eksempel på bredde-først
+søgning. Grafen er den samme, som den i \fref{fig:depth-first}, men
+knuderne er nu nummeret efter hvornår de opdages under en bredde-først
+søgning.
 
 \begin{figure}[h]\centering
 \includegraphics[width=.6\textwidth]{graphs/breadth-first.pdf}
@@ -278,6 +300,9 @@ knuden $9$ først bliver besøgt, når den opdages fra $7$.
 
 \subsection{Korteste vej}
 \label{sec:shortest_path}
+
+\subsubsection{Dijkstra's algoritme}
+\subsubsection{Køretid}
 
 \subsubsection{Korteste vej mellem to hustande}
 
