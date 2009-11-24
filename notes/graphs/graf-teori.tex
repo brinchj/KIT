@@ -301,17 +301,191 @@ søgning.
 \subsection{Korteste vej}
 \label{sec:shortest_path}
 
+Korteste vej problemet (\textit{shortest path problem}) går ud på at
+finde den korteste vej mellem to eller flere knuder i en
+graf.
+
+Problemet opstår i flere variationer:
+
+\begin{enumerate}
+\item \textbf{En til en:} Find den korteste vej mellem to knuder
+\item \textbf{En til alle:} Find de korteste veje mellem \'en knude og
+  alle andre knuder
+\item \textbf{Alle til alle:} Find de korteste veje mellem alle par af
+  knuder
+\end{enumerate}
+
+I de følgende afsnit skal vi se hvordan man kan løse den anden
+variation. Nemlig hvordan man kan finde den korteste vej mellem en
+udvalgt knude og alle andre knuder i grafen.
+
+Når algoritmen er på plads skal vi se, hvordan den kan bruges til at
+finde den korteste vej mellem to hustande i en by.
+
+
 \subsubsection{Dijkstra's algoritme}
-\subsubsection{Korteste vej mellem to hustande}
+
+Dijkstra's algoritme løser \'en til alle korteste vej
+problemet.
+
+Første iteration af en bredde-først søgning afdækker alle knuder, der
+har 1 kant til start-knuden. Anden iteration afdækker alle med 2
+kanter. $n$'e iteration afdækker alle med $n$ kanter til
+start-knuden. Vi kan nu tælle antaller af kanter til start-knuden ved
+bredde-først søgning. \Fref{fig:dijkstra0} viser hvordan
+kant-afstanden mellem knuden $A$ og alle andre knuder i grafen kan
+findes ved brug af bredde-først søgning. Hvis alle kanter har vægten
+$1$, er en til alle kortevej problemet nu løst.
+
+\begin{figure}[h]\centering
+\includegraphics[width=.49\textwidth]{graphs/dijkstra00.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra01.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra02.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra03.pdf}
+\caption{Dybde-først søgning, der tæller kant-afstand til $A$}
+\label{fig:dijkstra0}
+\end{figure}
+
+Vi udvider nu problemet med kanter. Da alle kanter var sat til $1$ var
+det blot et spørgsmål om at lægge $1$ til hver gang vi begav os ud i
+et nyt niveau. Det er ikke nok længere, da det ikke længere er
+sikkert, at den korteste vej er den med det færreste antal kanter. I
+stedet gør vi følgende observation:
+
+Lad $K(XY)$ være længden af den korteste vej fra knude $X$ til knude
+$Y$. For eksempel var $K(AC)=2$. Bemærk nu, at der om knude $C$
+gælder, at
+\[K(AC) = \min(K(AB)+1,K(AE)+1) \]
+
+Den korteste vej fra $A$ til $C$ går altså enten gennem knude $B$
+eller $E$ og må være $1$ højere end den laveste af deres afstande til
+$A$.
+Lad nu $K_i(AC)$ være den længden af den korteste vej fra $A$ til $C$
+i iteration $i$. For eksempel er $K_0(AC)$ ukendt, mens $K_2(AC)=2$.
+
+Lad nu $W(XY)$ være vægten mellem knuderne $X$ og $Y$. Da kan
+ændringen i iteration $2$ beskrives ved:
+\[ K_2(AC) = \min(K_1(AB) + W(BC), K_1(AC)) \]
+
+Den korteste vej fra $A$ til $C$ i iteration $2$ er dermed enten den
+korteste vej til $B$ plus vægten mellem $B$ og $C$ eller den korteste
+vej til $C$ fra en anden knude.
+
+Den korteste vej til en knude er altså minimum af de korteste veje til
+de omkringliggende knuder + den pris det koster at følge den
+mellemliggende kant.
+
+\subsection{Gennemgang af algoritmen}
+Dijkstra's algoritme virker på følgende måde:
+\begin{enumerate}
+\item Sæt afstanden til start-knuden til $0$ og afstanden til de andre
+  knuder til $\infty$.
+\item Tilføj start-knuden til en liste $L$ af knuder der skal besøges.
+\item Udtag den knude $X$ fra listen $L$ der har den korteste afstand
+  angivet (i første iteration vil det altid være start-knuden).
+\item Opdater alle omkringliggende knuder, så deres afstand bliver den
+  mindste af deres egen afstand og $X$'s afstand plus den
+  mellemliggende kants vægt.
+
+  Eller sagt på en anden måde:
+  \[ K(AY) = \min(K(AY), K(AX)+W(XY)) \]
+  hvor $Y$ er en omkringliggende knude og $XY$ er kanten mellem $X$ og
+  $Y$.
+\item Tilføj de omkringliggende knuder til $L$ hvis de ikke har været
+  besøgt før.
+\item Mark\'er $X$ som værende besøgt.
+\item Gentag fra punkt 3 indtil listen $L$ er tom.
+\end{enumerate}
+
+\subsection{Eksempel}
+\Fref{fig:dijkstraw0} viser et eksempel på Dijkstra's
+algoritme. Farverne på figuren har følgende betydning:
+\begin{itemize}
+\item Sort: knuden er endnu ikke besøgt
+\item Blå: knuden ligger i listen $L$ og venter på at blive besøgt
+\item Grøn: knuden er blevet besøgt og dens angivne afstand er længden af
+  den korteste vej
+\end{itemize}
+
+\begin{enumerate}
+\item I første iteration opdateres alle knuder, der deler en kant med
+  start-knuden $A$. $B$'s afstand bliver sat til $2$, $D$'s til $1$ og
+  $E$'s til $4$. Det er ikke nødvendigvis deres korteste veje til $A$,
+  men det er de korteste veje, hvis de kun må bruge \'en kant.
+
+  $L$ (listen over knuder der skal besøges) indeholder knuderne
+  $B,D,E$.
+
+\item I anden iteration vælges $D$, fordi den har den laveste afstand
+  til $A$ (nemlig 1). $D$ bliver dermed taget ud af listen $L$ og i
+  stedet markeret som besøgt (grøn). Dens omkringliggende knuder
+  opdateres. For eksempel sættes afstanden til $E$ nu til $2$ da $1+1
+  < 4$ ($1$ fra $D$'s afstand og $1$ fra kantens vægt).
+
+  Knuden $H$ har ikke været besøgt før og lægges derfor i listen
+  $L$. $A$ bliver ikke tilføjet til listen (den har allerede været besøgt).
+
+  $L$ indeholder nu knuderne $B,E,H$.
+
+\item I tredje iteration vælges knuden $B$. Knuden $C$ tilføjes til
+  listen $L$ og dennes afstand opdateres, da $2+1 < 7$. $L$ indeholder
+  $C,E,H$.
+
+\item I fjerde iteration er det $E$, der har den laveste afstand til
+  $A$. Denne tages ud af listen og dens naboknuder opdateres. $H$ får
+  afstanden $4$, da $2+2<5$. $B$ opdateres ikke, da $2+1\not< 2$. $L$
+  indeholder $C,F,H$.
+\end{enumerate}
 
 
-\section{Eksempler på grafer (Hvad kan det bruges til?!)}
-\subsection{Vennenetværk (ikke-orienteret graf)}
-\subsection{Telefonnumre (orienteret graf)}
+\begin{figure}[h]\centering
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted00.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted01.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted02.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted03.pdf}
+\caption{Dijkstra's algoritme, første 4 iterationer}
+\label{fig:dijkstraw0}
+\end{figure}
+
+\newpage
+
+\begin{enumerate}
+\item[5.] I den femte iteration vælges knuden $C$. Ingen knuder kan
+  opdateres, da alle naboknuders afstande allerede er optimale
+  (grønne).
+
+\item[6.] I den sjette iteration vælges knuden $F$. Naboknuden $G$
+  opdateres og får afstanden $9$. Listen $L$ indeholder nu $G,H$.
+
+
+\item[7-8.] I de sidste to iterationer markeres $H$ og $G$ som
+  besøgt. Ingen afstande opdateres. Algoritmen slutter, når alle
+  knuder er besøgt.
+\end{enumerate}
+
+\begin{figure}[h]\centering
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted04.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted05.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted06.pdf}
+\includegraphics[width=.49\textwidth]{graphs/dijkstra-weighted07.pdf}
+\caption{Dijkstra's algoritme, sidste 4 iterationer (fortsat)}
+\label{fig:dijkstraw1}
+\end{figure}
+
+
+
+%\newpage
+%\subsubsection{Korteste vej mellem to hustande}
+
+
+
+%\section{Eksempler på grafer (Hvad kan det bruges til?!)}
+%\subsection{Vennenetværk (ikke-orienteret graf)}
+%\subsection{Telefonnumre (orienteret graf)}
 %\subsection{Repræsentation af en sudoku som en graf}
 
 
-
+\newpage
 \section{Implementation af en graf i Python}
 Nu hvor det ligger fast hvad en graf er og hvad den kan bruges det
 ville det være rart med en implementation, som vi kan bruge i
