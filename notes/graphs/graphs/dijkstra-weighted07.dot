@@ -1,0 +1,36 @@
+graph G {
+      ratio="compress";
+      node [ width=.1 height=.1 ];
+
+      A [label="A,0", color="green"]
+      B [label="B,2", color="green"]
+      C [label="C,3", color="green"]
+      D [label="D,1", color="green"]
+      E [label="E,2", color="green"]
+      F [label="F,4", color="green"]
+      G [label="G,9", color="green"]
+      H [label="H,4", color="green"]
+
+
+      A -- B [label=2];
+      B -- C [label=5];
+
+      A -- D [label=1];
+      D -- E [label=1];
+      E -- F [label=2];
+      F -- G [label=5];
+
+      D -- H [label=4];
+
+      A -- E [label=4];
+      E -- C [label=1];
+
+      B -- E [label=1];
+      E -- H [label=2];
+
+      H -- F [label=6];
+
+      { rank=same; A B C }
+      { rank=same; D E F }
+      { rank=same; H G }
+}
