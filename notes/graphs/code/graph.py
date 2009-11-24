@@ -91,7 +91,7 @@ class Graph:
 
 
   def depth_first_no_reset(self, node):
-      """ Udfør dybde-først søgning antaget at farverne er OK """
+      """ Udfør dybde-først søgning antaget, at farverne er OK """
       node.set_color(1)
       nodes = [node]
       for edge_node in node.get_edges():
