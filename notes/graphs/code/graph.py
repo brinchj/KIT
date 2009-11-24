@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 class NodeAlreadyExistsError(Exception):
     """ Knuden findes allerede """
@@ -85,6 +85,40 @@ class Graph:
           count += node_a.count_edges()
       return count
 
+  def reset_colors(self):
+      for node in self.get_nodes():
+          node.set_color(0)
+
+
+  def depth_first_no_reset(self, node):
+      """ Udfør dybde-først søgning antaget at farverne er OK """
+      node.set_color(1)
+      nodes = [node]
+      for edge_node in node.get_edges():
+          if edge_node.get_color() == 0:
+              nodes += self.depth_first_no_reset(edge_node)
+      return nodes
+
+  def depth_first(self, node):
+      """ Udfør dybde-først søgning udfra knude """
+      self.reset_colors()
+      return self.depth_first_no_reset(node)
+
+
+  def breadth_first(self, node):
+      """ Udfør bredde-først søgning udfra knude """
+      self.reset_colors()
+      nodes, queue = [], [node]
+      node.set_color(1)
+      while len(queue) > 0:
+          node = queue.pop(0)
+          nodes.append(node)
+          for edge_node in node.get_edges():
+              if edge_node.get_color() == 0:
+                  edge_node.set_color(1)
+                  queue.append(edge_node)
+      return nodes
+
 
   def ensure_nodes(self, nodes, must_exist):
       """ Kast en fejl hvis en af knuderne findes/ikke findes """
@@ -139,10 +173,15 @@ class Node:
     def __init__(self):
         """ Ny knude, ingen kanter """
         self.edges = []
+        self.color = 0
 
     def add_edge(self, node):
         """ Tilføj kant """
         self.edges.append(node)
+
+    def get_edges(self):
+        """ Hent kanter """
+        return list(self.edges)
 
     def del_edge(self, node):
         """ Fjern kant """
@@ -156,3 +195,10 @@ class Node:
         """ Tæl antallet af kanter """
         return len(self.edges)
 
+    def set_color(self, color):
+        """ Sæt knudens farve/markering """
+        self.color = color
+
+    def get_color(self):
+        """ Hent knudens farve/markering """
+        return self.color
